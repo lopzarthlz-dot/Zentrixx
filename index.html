@@ -3,45 +3,47 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>LopzTracker</title>
+<title>Zentrix</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" crossorigin="anonymous"/>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+(function() {
+  var firebaseConfig = {
+    apiKey: "AIzaSyDKPdzZkLdVbnyXX6Mcnw1k03Fl4ujdVy4",
+    authDomain: "zentrix-6f3fc.firebaseapp.com",
+    projectId: "zentrix-6f3fc",
+    storageBucket: "zentrix-6f3fc.firebasestorage.app",
+    messagingSenderId: "554078287215",
+    appId: "1:554078287185:web:612bac92e0243e16cb4f70"
+  };
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDKPdzZkLdVbnyXX6Mcnw1k03Fl4ujdVy4",
-  authDomain: "zentrix-6f3fc.firebaseapp.com",
-  projectId: "zentrix-6f3fc",
-  storageBucket: "zentrix-6f3fc.firebasestorage.app",
-  messagingSenderId: "554078287185",
-  appId: "1:554078287185:web:612bac92e0243e16cb4f70"
-};
+  try {
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+    function getUserId() {
+      var uid = null;
+      try { uid = localStorage.getItem('zentrix_uid'); } catch(e) {}
+      if (!uid) {
+        uid = 'zentrix_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
+        try { localStorage.setItem('zentrix_uid', uid); } catch(e) {}
+      }
+      return uid;
+    }
 
-// Get or create userId (persisted in localStorage)
-function getUserId() {
-  let uid = null;
-  try { uid = localStorage.getItem('lopz_uid'); } catch(e) {}
-  if (!uid) {
-    uid = 'user_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
-    try { localStorage.setItem('lopz_uid', uid); } catch(e) {}
+    var userId = getUserId();
+    window._zentrixUserId = userId;
+    window._zentrixDb = db;
+    window._zentrixFirebaseReady = true;
+    console.log('Zentrix Firebase ready. userId:', userId);
+    window.dispatchEvent(new Event('zentrix-firebase-ready'));
+  } catch(e) {
+    console.error('Firebase init error:', e);
+    window._zentrixFirebaseReady = false;
+    window.dispatchEvent(new Event('zentrix-firebase-ready'));
   }
-  return uid;
-}
-const userId = getUserId();
-window._lopzUserId = userId;
-window._lopzDb = db;
-window._lopzDoc = () => doc(db, 'users', userId);
-window._lopzGetDoc = getDoc;
-window._lopzSetDoc = setDoc;
-window._lopzOnSnapshot = onSnapshot;
-
-console.log('Firebase ready. userId:', userId);
-window._lopzFirebaseReady = true;
-window.dispatchEvent(new Event('lopz-firebase-ready'));
+})();
 </script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -64,7 +66,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .screen::-webkit-scrollbar{width:2px;}
 .screen::-webkit-scrollbar-thumb{background:var(--purple2);border-radius:99px;}
 .top-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 10px;flex-shrink:0;position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(8,8,15,.98) 70%,transparent);}
-.logo{font-size:18px;font-weight:900;background:var(--grad2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px;}
+.logo{font-size:20px;font-weight:900;background:var(--grad2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:1px;}
 .top-actions{display:flex;gap:14px;align-items:center;}
 .top-btn{background:none;border:none;cursor:pointer;color:var(--text2);font-size:20px;padding:2px;}
 .bottom-nav{position:sticky;bottom:0;background:rgba(8,8,15,.97);border-top:1px solid var(--border);display:flex;z-index:200;padding:6px 0 12px;flex-shrink:0;backdrop-filter:blur(12px);}
@@ -324,7 +326,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 <div class="app">
   <div class="screen active" id="screen-home">
     <div class="top-bar">
-      <div class="logo">LOPZ<span style="background:none;-webkit-text-fill-color:var(--text2);font-weight:400;font-size:16px;">tracker</span></div>
+      <div class="logo">ZENTRIX</div>
       <div class="top-actions">
         <button class="top-btn" onclick="goTo('busca')">🔍</button>
         <button class="top-btn" onclick="goTo('perfil')">👤</button>
@@ -364,7 +366,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
     </div>
     <div class="empty-state" id="home-empty">
       <div class="empty-icon">🎌</div>
-      <div class="empty-title">Bem-vindo ao LopzTracker!</div>
+      <div class="empty-title">Bem-vindo ao Zentrix!</div>
       <div class="empty-sub">Adicione animes, séries e filmes<br>para começar sua lista.</div>
       <button class="empty-cta" onclick="openModal('add-modal')">+ Adicionar título</button>
     </div>
@@ -409,7 +411,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
     <div class="profile-banner"><div class="profile-banner-fade"></div></div>
     <div class="profile-av-row">
       <div class="profile-av">L</div>
-      <div><div class="profile-name">Lopz</div><div class="profile-handle">@lopz · Gamer & Otaku 🎮</div></div>
+      <div><div class="profile-name">Arthur</div><div class="profile-handle">@zentrix · Gamer & Otaku 🎮</div></div>
     </div>
     <div class="stats-strip">
       <div class="stat-block"><div class="stat-n" id="p-watching">0</div><div class="stat-l">Assistindo</div></div>
@@ -569,7 +571,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-var KEY='lopz_v1', DISC_KEY='lopz_disc_v1', SAVED_KEY='lopz_saved_v1';
+var KEY='zentrix_v1', DISC_KEY='lopz_disc_v1', SAVED_KEY='lopz_saved_v1';
 var items=[], discItems=[], savedItems=[];
 var filter='all', searchFilter='all';
 var curAud='d', curSavedCat='anime-serie';
@@ -584,116 +586,126 @@ function g(id){return document.getElementById(id);}
 var _saveTimer = null;
 var _unsubscribe = null;
 
-// Save all data to Firestore (debounced 600ms to avoid too many writes)
-function _pushToFirebase() {
-  if (!window._lopzSetDoc || !window._lopzDoc) return;
-  clearTimeout(_saveTimer);
-  _saveTimer = setTimeout(function() {
-    try {
-      window._lopzSetDoc(window._lopzDoc(), {
-        items: JSON.parse(JSON.stringify(items)),
-        discItems: JSON.parse(JSON.stringify(discItems)),
-        savedItems: JSON.parse(JSON.stringify(savedItems)),
-        updatedAt: Date.now()
-      }).then(function() {
-        console.log('Saved to Firebase');
-      }).catch(function(e) {
-        console.error('Firebase save error:', e);
-        // Fallback: save to localStorage
-        try { localStorage.setItem(KEY, JSON.stringify(items)); } catch(ex) {}
-      });
-    } catch(e) { console.error('Save prep error:', e); }
-  }, 600);
+function _getRef() {
+  if (!window._zentrixDb || !window._zentrixUserId) return null;
+  return window._zentrixDb.collection('users').doc(window._zentrixUserId);
 }
 
-// Load data from Firebase once on startup
+function _pushToFirebase() {
+  var ref = _getRef();
+  if (!ref) return;
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(function() {
+    var payload = {
+      items: JSON.parse(JSON.stringify(items)),
+      discItems: JSON.parse(JSON.stringify(discItems)),
+      savedItems: JSON.parse(JSON.stringify(savedItems)),
+      updatedAt: Date.now()
+    };
+    ref.set(payload).then(function() {
+      console.log('Zentrix: saved to Firebase', items.length, 'animes');
+    }).catch(function(e) {
+      console.error('Zentrix: Firebase save error:', e);
+    });
+  }, 800);
+}
+
 function loadData() {
-  // Show loading indicator
-  var empty = document.getElementById('home-empty');
-  if (empty) empty.innerHTML = '<div class="empty-icon">⏳</div><div class="empty-title">Carregando dados...</div>';
+  var empty = g('home-empty');
+  if (empty) {
+    empty.innerHTML = '<div class="empty-icon">⏳</div><div class="empty-title">Carregando...</div>';
+    empty.style.display = 'flex';
+  }
 
   function doLoad() {
-    if (!window._lopzGetDoc || !window._lopzDoc) {
-      // Firebase not ready yet, wait
-      setTimeout(doLoad, 200);
+    if (!window._zentrixFirebaseReady) {
+      setTimeout(doLoad, 300);
       return;
     }
-    window._lopzGetDoc(window._lopzDoc()).then(function(snap) {
-      if (snap.exists()) {
+    if (!window._zentrixDb) {
+      // Firebase failed, use localStorage
+      _loadFromLocalStorage();
+      renderAll();
+      return;
+    }
+    var ref = _getRef();
+    ref.get().then(function(snap) {
+      if (snap.exists) {
         var d = snap.data();
         items = Array.isArray(d.items) ? d.items : [];
         discItems = Array.isArray(d.discItems) ? d.discItems : [];
         savedItems = Array.isArray(d.savedItems) ? d.savedItems : [];
-        console.log('Loaded from Firebase:', items.length, 'animes');
+        console.log('Zentrix: loaded from Firebase:', items.length, 'animes');
       } else {
-        // New user - try to migrate from localStorage
-        try {
-          var old = localStorage.getItem(KEY);
-          if (old) { items = JSON.parse(old); console.log('Migrated', items.length, 'items from localStorage'); }
-          var old2 = localStorage.getItem(DISC_KEY);
-          if (old2) discItems = JSON.parse(old2);
-          var old3 = localStorage.getItem(SAVED_KEY);
-          if (old3) savedItems = JSON.parse(old3);
-          // Push migrated data to Firebase
-          if (items.length > 0) _pushToFirebase();
-        } catch(e) {}
-        console.log('New user created in Firebase');
+        // New user - migrate from localStorage if any
+        _loadFromLocalStorage();
+        if (items.length > 0 || discItems.length > 0) {
+          console.log('Zentrix: migrating localStorage to Firebase...');
+          _pushToFirebase();
+        }
       }
       renderAll();
-      // Start real-time listener after initial load
-      startRealtimeSync();
+      _startSync();
     }).catch(function(e) {
-      console.error('Firebase load error:', e);
-      // Fallback to localStorage
-      try { var old = localStorage.getItem(KEY); if(old) items = JSON.parse(old); } catch(ex) {}
+      console.error('Zentrix: Firebase load error:', e);
+      _loadFromLocalStorage();
       renderAll();
     });
   }
 
-  // Wait for Firebase module to be ready
-  if (window._lopzFirebaseReady) {
+  if (window._zentrixFirebaseReady !== undefined) {
     doLoad();
   } else {
-    window.addEventListener('lopz-firebase-ready', doLoad, { once: true });
-    // Timeout fallback
+    window.addEventListener('zentrix-firebase-ready', doLoad, {once: true});
     setTimeout(function() {
-      if (!window._lopzFirebaseReady) { items=[]; discItems=[]; savedItems=[]; renderAll(); }
-    }, 5000);
+      if (!window._zentrixFirebaseReady) {
+        _loadFromLocalStorage();
+        renderAll();
+      }
+    }, 6000);
   }
 }
 
-// Real-time sync: listen for changes from other devices
-function startRealtimeSync() {
-  if (!window._lopzOnSnapshot || !window._lopzDoc) return;
+function _loadFromLocalStorage() {
+  try { var v = localStorage.getItem(KEY); if (v) items = JSON.parse(v); } catch(e) {}
+  try { var v = localStorage.getItem(DISC_KEY); if (v) discItems = JSON.parse(v); } catch(e) {}
+  try { var v = localStorage.getItem(SAVED_KEY); if (v) savedItems = JSON.parse(v); } catch(e) {}
+}
+
+function _startSync() {
+  var ref = _getRef();
+  if (!ref) return;
   if (_unsubscribe) _unsubscribe();
-  _unsubscribe = window._lopzOnSnapshot(window._lopzDoc(), function(snap) {
-    if (!snap.exists()) return;
+  _unsubscribe = ref.onSnapshot(function(snap) {
+    if (!snap.exists) return;
     var d = snap.data();
-    // Only update if data changed from another device (not our own save)
     var remoteTs = d.updatedAt || 0;
-    if (remoteTs > (window._lastSaveTs || 0) + 1000) {
+    var localTs = window._zentrixLastSave || 0;
+    // Only update UI if change came from another device (not our own save)
+    if (remoteTs > localTs + 1500) {
       items = Array.isArray(d.items) ? d.items : [];
       discItems = Array.isArray(d.discItems) ? d.discItems : [];
       savedItems = Array.isArray(d.savedItems) ? d.savedItems : [];
-      console.log('Synced from another device');
+      console.log('Zentrix: synced from another device!');
       renderAll();
     }
+  }, function(e) {
+    console.error('Zentrix: sync error:', e);
   });
 }
 
 function saveData() {
-  window._lastSaveTs = Date.now();
-  // Also save to localStorage as backup
+  window._zentrixLastSave = Date.now();
   try { localStorage.setItem(KEY, JSON.stringify(items)); } catch(e) {}
   _pushToFirebase();
 }
 function saveDisc() {
-  window._lastSaveTs = Date.now();
+  window._zentrixLastSave = Date.now();
   try { localStorage.setItem(DISC_KEY, JSON.stringify(discItems)); } catch(e) {}
   _pushToFirebase();
 }
 function saveSaved() {
-  window._lastSaveTs = Date.now();
+  window._zentrixLastSave = Date.now();
   try { localStorage.setItem(SAVED_KEY, JSON.stringify(savedItems)); } catch(e) {}
   _pushToFirebase();
 }
@@ -1158,8 +1170,8 @@ var si=g('search-input');if(si)si.addEventListener('input',renderBusca);
 var ds=g('disc-search');if(ds)ds.addEventListener('input',renderDisc);
 var li=g('link-modal-input');if(li)li.addEventListener('keydown',function(e){if(e.key==='Enter')submitLinkModal();});
 
-loadData(); // renderAll() is called inside loadData() after Firebase responds
-console.log('LopzTracker OK!');
+loadData();
+console.log('Zentrix OK!');
 
 });
 </script>
