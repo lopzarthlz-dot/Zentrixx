@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>Zentrix</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" crossorigin="anonymous"/>
-
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{
@@ -21,39 +20,6 @@
   --font:'Inter',sans-serif;
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;overflow:hidden;}
-
-/* SPLASH SCREEN */
-#splash{
-  position:fixed;inset:0;z-index:9999;
-  display:flex;align-items:center;justify-content:center;
-  background:#08080f;
-  animation:splashFadeOut .5s ease forwards;
-  animation-delay:1.8s;
-  pointer-events:none;
-}
-#splash::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at 30% 50%,rgba(109,40,217,.35) 0%,transparent 60%),
-             radial-gradient(ellipse at 75% 50%,rgba(14,165,233,.25) 0%,transparent 55%);
-}
-.splash-inner{
-  display:flex;align-items:center;gap:16px;
-  position:relative;z-index:1;
-}
-.splash-logo{
-  width:52px;height:52px;border-radius:50%;
-  object-fit:cover;flex-shrink:0;
-}
-.splash-name{
-  font-size:38px;font-weight:900;letter-spacing:1px;
-  background:linear-gradient(90deg,#fff 0%,#c4b5fd 50%,#7dd3fc 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  font-family:'Inter',sans-serif;
-}
-@keyframes splashFadeOut{
-  0%{opacity:1;}
-  100%{opacity:0;visibility:hidden;}
-}
 .app{display:flex;flex-direction:column;height:100vh;max-width:480px;margin:0 auto;background:var(--bg);position:relative;}
 .screen{display:none;flex:1;flex-direction:column;overflow-y:auto;overflow-x:hidden;padding-bottom:100px;}
 .screen.active{display:flex;}
@@ -216,7 +182,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .empty-sub{font-size:13px;color:var(--text3);line-height:1.6;}
 .empty-cta{margin-top:8px;padding:10px 24px;border-radius:99px;background:var(--grad2);border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);}
 .loading-msg{text-align:center;padding:2rem;color:var(--text3);font-size:13px;}
-/* DETAIL SCREEN */
 .detail-screen{position:fixed;inset:0;z-index:300;background:var(--bg);display:none;flex-direction:column;max-width:480px;margin:0 auto;left:0;right:0;overflow-y:auto;}
 .detail-screen.active{display:flex;}
 .detail-screen::-webkit-scrollbar{width:2px;}
@@ -235,8 +200,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .season-label{font-size:13px;font-weight:800;display:flex;align-items:center;gap:8px;}
 .season-arrow{font-size:11px;color:var(--text3);}
 .eps-list{display:flex;flex-direction:column;}
-.ep-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;position:relative;}
-.ep-row:active{background:var(--bg2);}
+.ep-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border);cursor:pointer;position:relative;}
 .ep-row-num{font-size:12px;font-weight:800;color:var(--text3);min-width:24px;flex-shrink:0;}
 .ep-row-info{flex:1;min-width:0;}
 .ep-row-name{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
@@ -253,7 +217,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .detail-add-ep input{flex:1;padding:9px 12px;border-radius:var(--radius2);border:1px solid var(--border2);background:var(--bg3);font-size:13px;color:var(--text);font-family:var(--font);}
 .detail-add-ep input:focus{outline:none;border-color:var(--purple);}
 .detail-add-ep-btn{padding:9px 14px;border-radius:var(--radius2);background:var(--grad2);border:none;color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);}
-/* PLAYER */
 .player-overlay{position:fixed;inset:0;background:#000;z-index:1000;display:none;flex-direction:column;max-width:480px;margin:0 auto;left:0;right:0;}
 .player-overlay.active{display:flex;}
 .player-topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(0,0,0,.9);flex-shrink:0;border-bottom:1px solid #1a1a2e;}
@@ -317,13 +280,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 </style>
 </head>
 <body>
-<!-- SPLASH SCREEN -->
-<div id="splash">
-  <div class="splash-inner">
-    <img class="splash-logo" src="https://archive.org/download/copy_AE0F4DC1-B83C-46FC-BB9F-57B437BB5134/copy_AE0F4DC1-B83C-46FC-BB9F-57B437BB5134.png" alt="Zentrix"/>
-    <div class="splash-name">Zentrix</div>
-  </div>
-</div>
 <div class="app">
   <div class="screen active" id="screen-home">
     <div class="top-bar">
@@ -411,8 +367,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   <div class="screen" id="screen-perfil">
     <div class="profile-banner"><div class="profile-banner-fade"></div></div>
     <div class="profile-av-row">
-      <div class="profile-av">L</div>
-      <div><div class="profile-name">Arthur</div><div class="profile-handle">@zentrix · Gamer & Otaku 🎮</div></div>
+      <div class="profile-av">Z</div>
+      <div><div class="profile-name">Zentrix</div><div class="profile-handle">@zentrix · Anime Streaming 🎌</div></div>
     </div>
     <div class="stats-strip">
       <div class="stat-block"><div class="stat-n" id="p-watching">0</div><div class="stat-l">Assistindo</div></div>
@@ -421,7 +377,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
       <div class="stat-block"><div class="stat-n" id="p-saved">0</div><div class="stat-l">Salvos</div></div>
     </div>
     <div class="profile-sec">
-      <div class="profile-sec-title">Por categoria</div>
+      <div class="profile-sec-title">Estatísticas</div>
       <div class="cat-grid" id="p-cats"></div>
       <div class="profile-sec-title">⭐ Melhor avaliados</div>
       <div id="p-top" style="margin-bottom:20px;"></div>
@@ -435,25 +391,18 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
     <button class="nav-btn" data-nav="perfil" onclick="goTo('perfil')"><span class="nav-icon">👤</span><span class="nav-label">Conta</span></button>
   </div>
 </div>
-
 <button class="fab" id="fab" onclick="openModal('add-modal')">+</button>
-
-<!-- DETAIL SCREEN -->
 <div class="detail-screen" id="detail-screen">
   <div class="detail-hero">
-    <div class="detail-hero-bg"></div>
-    <div class="detail-hero-grid"></div>
-    <div class="detail-hero-glow1"></div>
-    <div class="detail-hero-glow2"></div>
+    <div class="detail-hero-bg"></div><div class="detail-hero-grid"></div>
+    <div class="detail-hero-glow1"></div><div class="detail-hero-glow2"></div>
     <div class="detail-hero-fade"></div>
     <button class="detail-hero-back" onclick="closeDetail()">←</button>
     <div class="detail-hero-title" id="detail-hero-title"></div>
   </div>
   <div class="detail-body">
     <div class="detail-tags-row" id="detail-tags-row"></div>
-    <div class="season-header">
-      <div class="season-label"><span class="season-arrow">▼</span> Temporada 1</div>
-    </div>
+    <div class="season-header"><div class="season-label"><span class="season-arrow">▼</span> Temporada 1</div></div>
     <div style="padding-top:4px;">
       <div class="detail-add-ep">
         <input id="detail-ep-input" placeholder="Nome do episódio (ex: Episódio 1)"/>
@@ -466,8 +415,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
     <button class="detail-continue-btn" id="detail-continue-btn" onclick="continueWatching()">▶ Continuar Assistindo</button>
   </div>
 </div>
-
-<!-- MODALS -->
 <div class="modal-wrap" id="add-modal">
   <div class="modal-overlay" onclick="closeModal('add-modal')"></div>
   <div class="modal-sheet">
@@ -478,7 +425,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
     <div class="modal-segs" id="aud-segs">
       <button class="modal-seg sel" data-a="d" onclick="selAud('d')">Dublado</button>
       <button class="modal-seg" data-a="l" onclick="selAud('l')">Legendado</button>
-      <button class="modal-seg" data-a="ld" onclick="selAud('ld')">L/D</button>
+      <button class="modal-seg" data-a="ld" onclick="selAud('ld')">Dub | Leg</button>
     </div>
     <button class="modal-submit" onclick="addItem()">+ ADICIONAR À LISTA</button>
   </div>
@@ -501,20 +448,16 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
     <button class="modal-submit" onclick="addDiscItem()">✨ ADICIONAR</button>
   </div>
 </div>
-
-<!-- LINK MODAL -->
 <div class="link-modal-wrap" id="link-modal">
   <div class="link-modal-overlay" onclick="closeLinkModal()"></div>
   <div class="link-modal-sheet">
     <div class="modal-handle"></div>
     <div class="link-modal-title">🔗 Link do vídeo</div>
     <input class="link-modal-input" id="link-modal-input" placeholder="Cole o link aqui..."/>
-    <div class="link-modal-hint">Archive.org · qualquer link direto .mp4 / .mov</div>
+    <div class="link-modal-hint">Archive.org · qualquer link direto .mp4</div>
     <button class="link-modal-submit" onclick="submitLinkModal()">✓ Salvar link</button>
   </div>
 </div>
-
-<!-- PLAYER -->
 <div class="player-overlay" id="player-overlay">
   <div class="player-topbar">
     <button class="player-back" onclick="closePlayer()">←</button>
@@ -525,13 +468,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   </div>
   <div class="player-video-area">
     <video id="main-video" playsinline webkit-playsinline preload="auto"></video>
-    <div class="loading-overlay" id="loading-overlay"><div class="spinner"></div><div style="font-size:12px;color:#555;">Carregando vídeo...</div></div>
+    <div class="loading-overlay" id="loading-overlay"><div class="spinner"></div><div style="font-size:12px;color:#555;">Carregando...</div></div>
     <div class="player-no-file show" id="no-file-msg">
       <span style="font-size:40px;">🎬</span>
       <p>Nenhum vídeo carregado</p>
       <div style="display:flex;flex-direction:column;gap:8px;width:100%;max-width:280px;">
         <button class="pick-file-btn" onclick="pickFileForCurrentEp()" style="width:100%;">📂 Arquivo local</button>
-        <button class="pick-file-btn" onclick="openLinkModal()" style="background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.4);color:#38bdf8;width:100%;">🔗 Link de vídeo online</button>
+        <button class="pick-file-btn" onclick="openLinkModal()" style="background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.4);color:#38bdf8;width:100%;">🔗 Link online</button>
       </div>
     </div>
   </div>
@@ -561,29 +504,17 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   <div class="ep-section">
     <div class="ep-sec-title">Episódios</div>
     <div class="ep-add-row">
-      <input id="ep-name-input" placeholder="Nome do episódio (ex: Episódio 1)"/>
+      <input id="ep-name-input" placeholder="Nome do episódio"/>
       <button class="ep-add-btn" onclick="addEpisode()">+ Ep</button>
     </div>
     <div class="ep-list" id="ep-list"></div>
   </div>
   <input type="file" id="file-input-hidden" accept="video/mp4,video/webm,video/ogg,video/quicktime,video/*" style="display:none;"/>
 </div>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-var KEY='zentrix_v1', DISC_KEY='zentrix_disc_v1', SAVED_KEY='zentrix_saved_v1';
-var items=[], discItems=[], savedItems=[];
-var filter='all', searchFilter='all';
-var curAud='d', curSavedCat='anime-serie';
-var expandedId=null, heroItemId=null;
-var playerItemId=null, playerEpIdx=-1, isSeeking=false, linkModalEpIdx=-1;
-var detailItemId=null;
-var vid=document.getElementById('main-video');
-
-function g(id){return document.getElementById(id);}
-
-// ===== ANIMES PADRÃO (editados aqui no código) =====
+// ===== ANIMES PADRÃO =====
 var DEFAULT_ANIMES = [
   {
     id: 'sentenced-hero',
@@ -597,131 +528,97 @@ var DEFAULT_ANIMES = [
     cover: '',
     lastEp: -1,
     episodes: [
-      {
-        id: 'ep1',
-        name: 'Sentenciado a ser Herói',
-        linkUrl: 'https://ia601603.us.archive.org/25/items/copy_2512069D-E085-4039-B16D-A3EBC768F676/copy_2512069D-E085-4039-B16D-A3EBC768F676.mp4',
-        fileUrl: null, savedTime: 0, duration: 0, watched: false
-      },
-      {
-        id: 'ep2',
-        name: 'Sentença: Liderando a supressão no túnel Zewan Gan - Parte 1',
-        linkUrl: 'https://ia800809.us.archive.org/1/items/copy_D17D323E-89BA-446D-949A-6505778C98DC/copy_D17D323E-89BA-446D-949A-6505778C98DC.mp4',
-        fileUrl: null, savedTime: 0, duration: 0, watched: false
-      },
-      {
-        id: 'ep3',
-        name: 'Sentença: Liderando a supressão no túnel Zewan Gan - Parte 2',
-        linkUrl: 'https://ia600703.us.archive.org/27/items/copy_95fa6027-6446-481f-9e8a-4cb2ab2687bd_202604/copy_95FA6027-6446-481F-9E8A-4CB2AB2687BD.mp4',
-        fileUrl: null, savedTime: 0, duration: 0, watched: false
-      }
+      { id: 'ep1', name: 'Sentenciado a ser Herói', linkUrl: 'https://ia601603.us.archive.org/25/items/copy_2512069D-E085-4039-B16D-A3EBC768F676/copy_2512069D-E085-4039-B16D-A3EBC768F676.mp4', fileUrl: null, savedTime: 0, duration: 0, watched: false },
+      { id: 'ep2', name: 'Sentença: Liderando a supressão no túnel Zewan Gan - Parte 1', linkUrl: 'https://ia800809.us.archive.org/1/items/copy_D17D323E-89BA-446D-949A-6505778C98DC/copy_D17D323E-89BA-446D-949A-6505778C98DC.mp4', fileUrl: null, savedTime: 0, duration: 0, watched: false },
+      { id: 'ep3', name: 'Sentença: Liderando a supressão no túnel Zewan Gan - Parte 2', linkUrl: 'https://ia600703.us.archive.org/27/items/copy_95fa6027-6446-481f-9e8a-4cb2ab2687bd_202604/copy_95FA6027-6446-481F-9E8A-4CB2AB2687BD.mp4', fileUrl: null, savedTime: 0, duration: 0, watched: false },
+      { id: 'ep4', name: 'Ordem de espera: Fortaleza Mureed', linkUrl: 'https://ia600606.us.archive.org/13/items/copy_72840537-6B9E-43CD-9838-7880E3549982/copy_72840537-6B9E-43CD-9838-7880E3549982.mp4', fileUrl: null, savedTime: 0, duration: 0, watched: false }
     ]
   }
   // NOVOS ANIMES AQUI EMBAIXO
 ];
 
-// Merge default animes with user progress from localStorage
-function mergeWithProgress(defaults, savedProgress) {
-  return defaults.map(function(anime) {
-    var prog = savedProgress[anime.id] || {};
-    var merged = JSON.parse(JSON.stringify(anime)); // deep copy
-    // Apply saved user progress to each episode
-    merged.lastEp = prog.lastEp !== undefined ? prog.lastEp : anime.lastEp;
-    merged.fav = prog.fav !== undefined ? prog.fav : anime.fav;
-    merged.rating = prog.rating !== undefined ? prog.rating : anime.rating;
-    merged.status = prog.status || anime.status;
-    merged.progress = prog.progress || anime.progress;
-    if (prog.episodes) {
-      merged.episodes = anime.episodes.map(function(ep) {
-        var epProg = prog.episodes[ep.id] || {};
-        return {
-          id: ep.id,
-          name: ep.name,
-          linkUrl: ep.linkUrl,
-          fileUrl: ep.fileUrl,
-          savedTime: epProg.savedTime || 0,
-          duration: epProg.duration || 0,
-          watched: epProg.watched || false
-        };
+// ===== STORAGE =====
+var KEY='zentrix_v1', DISC_KEY='zentrix_disc_v1', SAVED_KEY='zentrix_saved_v1', PROG_KEY='zentrix_progress';
+var items=[], discItems=[], savedItems=[];
+var filter='all', searchFilter='all';
+var curAud='d';
+var expandedId=null, heroItemId=null;
+var playerItemId=null, playerEpIdx=-1, isSeeking=false, linkModalEpIdx=-1;
+var detailItemId=null;
+var vid=document.getElementById('main-video');
+
+function g(id){return document.getElementById(id);}
+
+function lsGet(k){try{var v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+
+function loadData(){
+  var prog = lsGet(PROG_KEY) || {};
+  items = DEFAULT_ANIMES.map(function(anime){
+    var p = prog[anime.id] || {};
+    var a = JSON.parse(JSON.stringify(anime));
+    if(p.lastEp !== undefined) a.lastEp = p.lastEp;
+    if(p.fav !== undefined) a.fav = p.fav;
+    if(p.rating !== undefined) a.rating = p.rating;
+    if(p.status) a.status = p.status;
+    if(p.progress) a.progress = p.progress;
+    if(p.episodes){
+      a.episodes = anime.episodes.map(function(ep){
+        var ep2 = JSON.parse(JSON.stringify(ep));
+        var epP = p.episodes[ep.id] || {};
+        if(epP.savedTime) ep2.savedTime = epP.savedTime;
+        if(epP.duration) ep2.duration = epP.duration;
+        if(epP.watched) ep2.watched = epP.watched;
+        return ep2;
       });
     }
-    return merged;
+    return a;
   });
+  var custom = lsGet(KEY) || [];
+  custom = custom.filter(function(ci){
+    return !DEFAULT_ANIMES.some(function(d){return d.id===ci.id;});
+  });
+  items = items.concat(custom);
+  discItems = lsGet(DISC_KEY) || [];
+  savedItems = lsGet(SAVED_KEY) || [];
 }
 
-// Save only user progress (not the anime data itself)
-function saveProgress_JSON() {
-  var progress = {};
-  items.forEach(function(anime) {
-    var def = DEFAULT_ANIMES.find(function(d) { return d.id === anime.id; });
-    if (!def) return; // custom anime added by user, skip
-    var epProgress = {};
-    anime.episodes.forEach(function(ep) {
-      if (ep.savedTime > 0 || ep.watched || ep.duration > 0) {
-        epProgress[ep.id] = {
-          savedTime: ep.savedTime || 0,
-          duration: ep.duration || 0,
-          watched: ep.watched || false
-        };
+function saveProgress(){
+  var prog = {};
+  items.forEach(function(anime){
+    var isDef = DEFAULT_ANIMES.some(function(d){return d.id===anime.id;});
+    if(!isDef) return;
+    var epProg = {};
+    anime.episodes.forEach(function(ep){
+      if(ep.savedTime>0||ep.watched||ep.duration>0){
+        epProg[ep.id]={savedTime:ep.savedTime||0,duration:ep.duration||0,watched:ep.watched||false};
       }
     });
-    progress[anime.id] = {
-      lastEp: anime.lastEp,
-      fav: anime.fav,
-      rating: anime.rating,
-      status: anime.status,
-      progress: anime.progress,
-      episodes: epProgress
-    };
+    prog[anime.id]={lastEp:anime.lastEp,fav:anime.fav,rating:anime.rating,status:anime.status,progress:anime.progress,episodes:epProg};
   });
-  try { localStorage.setItem('zentrix_progress', JSON.stringify(progress)); } catch(e) {}
+  lsSet(PROG_KEY, prog);
 }
 
-// ===== STORAGE LOCAL =====
-function loadData() {
-  // Load user progress
-  var savedProgress = {};
-  try { var v = localStorage.getItem('zentrix_progress'); if (v) savedProgress = JSON.parse(v); } catch(e) {}
-
-  // Merge default animes with progress
-  var merged = mergeWithProgress(DEFAULT_ANIMES, savedProgress);
-
-  // Load any custom animes user added manually
-  var customItems = [];
-  try { var v = localStorage.getItem(KEY); if (v) customItems = JSON.parse(v); } catch(e) {}
-  // Filter out any that conflict with defaults
-  customItems = customItems.filter(function(ci) {
-    return !DEFAULT_ANIMES.find(function(d) { return d.id === ci.id; });
+function saveCustom(){
+  var custom = items.filter(function(a){
+    return !DEFAULT_ANIMES.some(function(d){return d.id===a.id;});
   });
-
-  items = merged.concat(customItems);
-
-  try { var v = localStorage.getItem(DISC_KEY); if (v) discItems = JSON.parse(v); } catch(e) { discItems = []; }
-  try { var v = localStorage.getItem(SAVED_KEY); if (v) savedItems = JSON.parse(v); } catch(e) { savedItems = []; }
+  lsSet(KEY, custom);
 }
 
-function saveData() {
-  // Save progress separately
-  saveProgress_JSON();
-  // Save custom (non-default) animes
-  var custom = items.filter(function(a) {
-    return !DEFAULT_ANIMES.find(function(d) { return d.id === a.id; });
-  });
-  try { localStorage.setItem(KEY, JSON.stringify(custom)); } catch(e) {}
-}
-function saveDisc() { try { localStorage.setItem(DISC_KEY, JSON.stringify(discItems)); } catch(e) {} }
-function saveSaved() { try { localStorage.setItem(SAVED_KEY, JSON.stringify(savedItems)); } catch(e) {} }
+function saveData(){ saveProgress(); saveCustom(); }
+function saveDisc(){ lsSet(DISC_KEY, discItems); }
+function saveSaved(){ lsSet(SAVED_KEY, savedItems); }
 
-function catLabel(){return 'Anime';}
-function catEmoji(){return '⚔️';}
-function hasAudio(){return true;}
+// ===== HELPERS =====
 function audioLabel(a){return a==='ld'?'Dub | Leg':a==='l'?'Leg':'Dub';}
 function formatProg(p){if(!p)return'';var pts=[];if(p.season)pts.push('T'+p.season);if(p.ep)pts.push('Ep '+p.ep);if(p.time)pts.push(p.time);return pts.join(' · ');}
 function sorted(list){return list.slice().sort(function(a,b){if(a.status===b.status)return a.name.localeCompare(b.name);return a.status==='watching'?-1:1;});}
 function fmtTime(s){if(!s||isNaN(s))return'0:00';var m=Math.floor(s/60),sec=Math.floor(s%60);return m+':'+(sec<10?'0':'')+sec;}
 function fmtMins(s){if(!s||isNaN(s))return'';return Math.round(s/60)+'min';}
-function newItem(name,aud){return{id:Date.now().toString(),name:name,status:'watching',cat:'anime-serie',audio:aud||'d',progress:{},fav:false,rating:null,episodes:[],lastEp:-1};}
+function newItem(name,aud){return{id:Date.now().toString(),name:name,status:'watching',cat:'anime-serie',audio:aud||'d',progress:{},fav:false,rating:null,episodes:[],lastEp:-1,cover:''};}
 
+// ===== NAV =====
 function goTo(s){
   document.querySelectorAll('.screen').forEach(function(x){x.classList.remove('active');});
   var scr=g('screen-'+s);if(scr)scr.classList.add('active');
@@ -735,16 +632,15 @@ function goTo(s){
   else if(s==='busca'){var si=g('search-input');if(si)setTimeout(function(){si.focus();},100);renderBusca();}
 }
 window.goTo=goTo;
-
 function openModal(id){var m=g(id);if(!m)return;m.classList.add('active');var inp=m.querySelector('.modal-input');if(inp)setTimeout(function(){inp.focus();},100);}
 function closeModal(id){var m=g(id);if(m)m.classList.remove('active');}
 window.openModal=openModal;window.closeModal=closeModal;
-
 function selAud(a){curAud=a;document.querySelectorAll('#aud-segs .modal-seg').forEach(function(b){b.classList.toggle('sel',b.dataset.a===a);});}
 function setFilter(f){filter=f;document.querySelectorAll('.chip[data-f]').forEach(function(x){x.classList.toggle('active',x.dataset.f===f);});renderLista();}
 function setSearchFilter(f){searchFilter=f;document.querySelectorAll('.chip[data-sf]').forEach(function(x){x.classList.toggle('active',x.dataset.sf===f);});renderBusca();}
 window.selAud=selAud;window.setFilter=setFilter;window.setSearchFilter=setSearchFilter;
 
+// ===== CARDS =====
 function mkPC(a,fn){
   return '<div class="p-card" onclick="'+fn+'">'+
     '<div class="p-card-img"><div class="p-card-emoji">⚔️</div>'+
@@ -762,28 +658,25 @@ function mkSavedPC(s){
     '<div class="p-card-sub">Anime</div></div>';
 }
 function mkCW(a){
-  var ep=a.episodes&&a.episodes[a.lastEp>=0?a.lastEp:0];
-  var prog=ep&&ep.savedTime?Math.min(85,Math.round(ep.savedTime/3)):0;
+  var eps=a.episodes||[];
   var targetIdx=a.lastEp>=0?a.lastEp:0;
-  if(a.episodes&&a.episodes.length>0){for(var i=0;i<a.episodes.length;i++){if(a.episodes[i].savedTime&&a.episodes[i].savedTime>5&&!a.episodes[i].watched){targetIdx=i;break;}}}
-  return '<div class="cw-card" onclick="openPlayer(\''+a.id+'\','+targetIdx+')">'+
-    '<div class="cw-thumb"><div>⚔️</div><div class="cw-play-ic">▶</div>'+
-    '<div class="cw-prog"><div class="cw-prog-fill" style="width:'+prog+'%"></div></div></div>'+
-    '<div class="cw-info"><div class="cw-title">'+a.name+'</div>'+
+  for(var i=0;i<eps.length;i++){if(eps[i].savedTime&&eps[i].savedTime>5&&!eps[i].watched){targetIdx=i;break;}}
+  var ep=eps[targetIdx]||null;
+  var prog=ep&&ep.savedTime?Math.min(85,Math.round(ep.savedTime/3)):0;
+  return '<div class="cw-card" onclick="openPlayer(\''+a.id+'\','+targetIdx+')">' +
+    '<div class="cw-thumb"><div>⚔️</div><div class="cw-play-ic">▶</div>' +
+    '<div class="cw-prog"><div class="cw-prog-fill" style="width:'+prog+'%"></div></div></div>' +
+    '<div class="cw-info"><div class="cw-title">'+a.name+'</div>' +
     '<div class="cw-ep">'+(ep?ep.name:'Anime')+' · '+audioLabel(a.audio)+'</div></div></div>';
 }
 function mkLI(a){
-  var isDone=a.status==='watched',prog=formatProg(a.progress),isOpen=expandedId===a.id;
-  var epIdx=a.lastEp>=0?a.lastEp:0;
+  var isDone=a.status==='watched', prog=formatProg(a.progress), isOpen=expandedId===a.id;
   var html='<div><div class="list-item">'+
     '<div class="li-thumb">⚔️</div>'+
     '<div class="li-info">'+
     '<div class="li-name'+(isDone?' done':'')+'">'+a.name+'</div>'+
-    '<div class="li-tags">'+
-      '<span class="li-tag anime-serie">Anime</span>'+
-      '<span class="li-tag aud">'+audioLabel(a.audio)+'</span>'+
-      (isDone?'<span class="li-tag status-d">✅ Concluído</span>':'<span class="li-tag status-w">▶ Assistindo</span>')+
-    '</div>'+
+    '<div class="li-tags"><span class="li-tag anime-serie">Anime</span><span class="li-tag aud">'+audioLabel(a.audio)+'</span>'+
+    (isDone?'<span class="li-tag status-d">✅ Concluído</span>':'<span class="li-tag status-w">▶ Assistindo</span>')+'</div>'+
     '<div style="display:flex;gap:8px;">'+(prog?'<span class="li-meta">'+prog+'</span>':'')+(a.rating?'<span class="li-rating">★'+a.rating+'</span>':'')+'</div>'+
     '</div>'+
     '<div class="li-actions">'+
@@ -794,16 +687,17 @@ function mkLI(a){
     '<button class="li-more" onclick="toggleExpand(\''+a.id+'\')">···</button>'+
     '</div></div></div>';
   if(isOpen){
-    html+='<div class="exp-panel">';
-    html+='<div class="exp-row"><span class="exp-label">Temporada</span><input class="exp-input" type="number" min="1" placeholder="1" value="'+(a.progress&&a.progress.season||'')+'" id="ps-'+a.id+'"/></div>';
-    html+='<div class="exp-row"><span class="exp-label">Episódio</span><input class="exp-input" type="number" min="1" placeholder="1" value="'+(a.progress&&a.progress.ep||'')+'" id="pe-'+a.id+'"/></div>';
-    html+='<div class="exp-row"><span class="exp-label">Tempo</span><input class="exp-input" style="width:130px;" placeholder="ex: 14:32" value="'+(a.progress&&a.progress.time||'')+'" id="pt-'+a.id+'"/></div>';
-    if(isDone)html+='<div class="exp-row"><span class="exp-label">Nota (0-10)</span><input class="exp-input" type="number" min="0" max="10" step="0.1" placeholder="9.5" value="'+(a.rating||'')+'" id="pr-'+a.id+'" style="width:80px;"/></div>';
-    html+='<div class="exp-btns"><button class="exp-save" onclick="saveProgress(\''+a.id+'\')">Salvar</button><button class="exp-del" onclick="removeItem(\''+a.id+'\')">🗑 Remover</button></div></div>';
+    html+='<div class="exp-panel">'+
+    '<div class="exp-row"><span class="exp-label">Temporada</span><input class="exp-input" type="number" min="1" placeholder="1" value="'+(a.progress&&a.progress.season||'')+'" id="ps-'+a.id+'"/></div>'+
+    '<div class="exp-row"><span class="exp-label">Episódio</span><input class="exp-input" type="number" min="1" placeholder="1" value="'+(a.progress&&a.progress.ep||'')+'" id="pe-'+a.id+'"/></div>'+
+    '<div class="exp-row"><span class="exp-label">Tempo</span><input class="exp-input" placeholder="ex: 14:32" value="'+(a.progress&&a.progress.time||'')+'" id="pt-'+a.id+'"/></div>'+
+    (isDone?'<div class="exp-row"><span class="exp-label">Nota (0-10)</span><input class="exp-input" type="number" min="0" max="10" step="0.1" placeholder="9.5" value="'+(a.rating||'')+'" id="pr-'+a.id+'" style="width:80px;"/></div>':'')+
+    '<div class="exp-btns"><button class="exp-save" onclick="saveProgress2(\''+a.id+'\')">Salvar</button><button class="exp-del" onclick="removeItem(\''+a.id+'\')">🗑 Remover</button></div></div>';
   }
   html+='</div>';return html;
 }
 
+// ===== RENDERS =====
 function renderHome(){
   var watching=sorted(items.filter(function(x){return x.status==='watching';}));
   var watched=sorted(items.filter(function(x){return x.status==='watched';}));
@@ -823,14 +717,13 @@ function renderHome(){
 }
 function heroPlay(){if(!heroItemId){openModal('add-modal');return;}openDetail(heroItemId);}
 window.heroPlay=heroPlay;
-
 function renderLista(){
   var list=items.slice();
   if(filter==='watching')list=list.filter(function(x){return x.status==='watching';});
   else if(filter==='watched')list=list.filter(function(x){return x.status==='watched';});
   else if(filter==='favorites')list=list.filter(function(x){return x.fav;});
   var c=g('lista-items');if(!c)return;
-  if(!list.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">Nada aqui ainda</div><div class="empty-sub">Toque em ➕ para adicionar.</div></div>';return;}
+  if(!list.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">Nada aqui ainda</div></div>';return;}
   c.innerHTML=sorted(list).map(mkLI).join('');
 }
 function renderBusca(){
@@ -845,10 +738,10 @@ function renderBusca(){
 }
 function renderSalvos(){
   var c=g('salvos-items');if(!c)return;
-  if(!savedItems.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">💾</div><div class="empty-title">Nenhum título salvo</div><button class="empty-cta" onclick="openModal(\'saved-modal\')">+ Salvar título</button></div>';return;}
+  if(!savedItems.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">💾</div><div class="empty-title">Nenhum título salvo</div><button class="empty-cta" onclick="openModal(\'saved-modal\')">+ Salvar</button></div>';return;}
   c.innerHTML=savedItems.map(function(s){
     return '<div class="saved-item"><div class="saved-thumb">⚔️</div><div class="saved-info"><div class="saved-name">'+s.name+'</div></div>'+
-      '<div class="saved-acts"><button class="saved-start" onclick="startFromSaved(\''+s.id+'\')">▶ Assistir</button><button class="saved-del" onclick="removeSaved(\''+s.id+'\')">✕</button></div></div>';
+    '<div class="saved-acts"><button class="saved-start" onclick="startFromSaved(\''+s.id+'\')">▶ Assistir</button><button class="saved-del" onclick="removeSaved(\''+s.id+'\')">✕</button></div></div>';
   }).join('');
 }
 function renderDisc(){
@@ -860,11 +753,11 @@ function renderDisc(){
   c.innerHTML=list.map(function(d){
     var isW=items.some(function(x){return x.name.toLowerCase()===d.name.toLowerCase()&&x.status==='watching';});
     var isS=savedItems.some(function(x){return x.name.toLowerCase()===d.name.toLowerCase();});
-    return '<div class="disc-item"><div class="disc-thumb">⚔️</div><div class="disc-info"><div class="disc-name">'+d.name+'</div><span class="li-tag anime-serie">Anime</span>'+
-      ((isW||isS)?'<div class="disc-inds">'+(isW?'<span class="disc-ind w">▶ Assistindo</span>':'')+(isS?'<span class="disc-ind s">💾 Salvo</span>':'')+'</div>':'')+
-      '<div class="disc-acts"><button class="disc-act w" onclick="watchNowFromDisc(\''+d.id+'\')"'+(isW?' disabled':'')+'>▶ Assistir agora</button>'+
-      '<button class="disc-act s" onclick="saveFromDisc(\''+d.id+'\')"'+(isS?' disabled':'')+'>💾 Salvar</button>'+
-      '<button class="disc-act r" onclick="removeDiscItem(\''+d.id+'\')">✕</button></div></div></div>';
+    return '<div class="disc-item"><div class="disc-thumb">⚔️</div><div class="disc-info"><div class="disc-name">'+d.name+'</div>'+
+    ((isW||isS)?'<div class="disc-inds">'+(isW?'<span class="disc-ind w">▶ Assistindo</span>':'')+(isS?'<span class="disc-ind s">💾 Salvo</span>':'')+'</div>':'')+
+    '<div class="disc-acts"><button class="disc-act w" onclick="watchNowFromDisc(\''+d.id+'\')"'+(isW?' disabled':'')+'>▶ Assistir</button>'+
+    '<button class="disc-act s" onclick="saveFromDisc(\''+d.id+'\')"'+(isS?' disabled':'')+'>💾 Salvar</button>'+
+    '<button class="disc-act r" onclick="removeDiscItem(\''+d.id+'\')">✕</button></div></div></div>';
   }).join('');
 }
 function renderPerfil(){
@@ -882,7 +775,7 @@ function renderPerfil(){
 }
 function renderAll(){renderHome();renderLista();renderSalvos();renderDisc();renderPerfil();}
 
-// DETAIL
+// ===== DETAIL =====
 function openDetail(itemId){
   detailItemId=itemId;
   var a=items.find(function(x){return x.id===itemId;});if(!a)return;
@@ -899,23 +792,22 @@ function closeDetail(){
   document.body.style.overflow='';detailItemId=null;renderAll();
 }
 window.openDetail=openDetail;window.closeDetail=closeDetail;
-
 function renderDetailEps(){
   var a=items.find(function(x){return x.id===detailItemId;});if(!a)return;
   var eps=a.episodes||[];
   var container=g('detail-eps-list');if(!container)return;
-  if(!eps.length){container.innerHTML='<div style="padding:20px 0;text-align:center;font-size:13px;color:var(--text3);">Nenhum episódio ainda. Adicione acima!</div>';return;}
+  if(!eps.length){container.innerHTML='<div style="padding:20px 0;text-align:center;font-size:13px;color:var(--text3);">Nenhum episódio ainda.</div>';return;}
   container.innerHTML=eps.map(function(ep,i){
     var hasSrc=ep.fileUrl||ep.linkUrl;
     var isWatched=ep.watched||false;
     var dur=ep.duration?fmtMins(ep.duration):'';
     var prog=ep.savedTime&&ep.duration?(ep.savedTime/ep.duration)*100:0;
     var progLabel='';
-    if(ep.savedTime&&ep.savedTime>10&&!isWatched){
-      var remaining=ep.duration?Math.round((ep.duration-ep.savedTime)/60):0;
-      if(remaining>0)progLabel=remaining+'min restantes';
+    if(ep.savedTime&&ep.savedTime>10&&!isWatched&&ep.duration){
+      var rem=Math.round((ep.duration-ep.savedTime)/60);
+      if(rem>0)progLabel=rem+'min restantes';
     }
-    return '<div class="ep-row'+(isWatched?' ep-watched':'')+'" onclick="playEpFromDetail('+i+')">'+
+    return '<div class="ep-row" onclick="playEpFromDetail('+i+')">'+
       '<span class="ep-row-num">'+(i+1)+'</span>'+
       '<div class="ep-row-info">'+
         '<div class="ep-row-name">'+ep.name+'</div>'+
@@ -939,7 +831,6 @@ function renderDetailEps(){
     '</div>';
   }).join('');
 }
-
 function updateContinueBar(){
   var a=items.find(function(x){return x.id===detailItemId;});if(!a)return;
   var bar=g('detail-continue-bar'),btn=g('detail-continue-btn');if(!bar||!btn)return;
@@ -950,14 +841,11 @@ function updateContinueBar(){
   if(nextIdx<0){for(var i=0;i<eps.length;i++){if(!eps[i].watched){nextIdx=i;break;}}}
   if(nextIdx>=0&&eps.length>0){
     bar.style.display='block';
-    var ep=eps[nextIdx];
-    btn.textContent=ep.savedTime&&ep.savedTime>5?'▶ Continuar — Ep '+(nextIdx+1):'▶ Assistir Ep '+(nextIdx+1);
+    btn.textContent=eps[nextIdx].savedTime&&eps[nextIdx].savedTime>5?'▶ Continuar — Ep '+(nextIdx+1):'▶ Assistir Ep '+(nextIdx+1);
     btn.dataset.epIdx=nextIdx;
-  } else if(eps.length>0){
-    bar.style.display='block';btn.textContent='▶ Assistir do início';btn.dataset.epIdx=0;
-  } else {bar.style.display='none';}
+  } else if(eps.length>0){bar.style.display='block';btn.textContent='▶ Assistir do início';btn.dataset.epIdx=0;}
+  else{bar.style.display='none';}
 }
-
 function continueWatching(){var btn=g('detail-continue-btn');if(!btn)return;playEpFromDetail(parseInt(btn.dataset.epIdx)||0);}
 function playEpFromDetail(idx){var a=items.find(function(x){return x.id===detailItemId;});if(!a)return;closeDetail();openPlayer(a.id,idx);}
 function addEpFromDetail(){
@@ -1007,7 +895,7 @@ window.addEpFromDetail=addEpFromDetail;window.toggleEpWatched=toggleEpWatched;
 window.removeDetailEp=removeDetailEp;window.editEpNamePrompt=editEpNamePrompt;
 window.openLinkModalForDetailEp=openLinkModalForDetailEp;window.pickDetailEpFile=pickDetailEpFile;
 
-// CRUD
+// ===== CRUD =====
 function addItem(){var inp=g('add-name');var name=inp?inp.value.trim():'';if(!name)return;items.unshift(newItem(name,curAud));if(inp)inp.value='';closeModal('add-modal');saveData();renderAll();}
 function addSavedItem(){var inp=g('saved-add-name');var name=inp?inp.value.trim():'';if(!name)return;if(savedItems.find(function(x){return x.name.toLowerCase()===name.toLowerCase();}))return;savedItems.push({id:Date.now().toString(),name:name,cat:'anime-serie'});if(inp)inp.value='';closeModal('saved-modal');saveSaved();renderAll();}
 function addDiscItem(){var inp=g('disc-name');var name=inp?inp.value.trim():'';if(!name)return;discItems.push({id:Date.now().toString(),name:name,cat:'anime-serie'});if(inp)inp.value='';closeModal('disc-modal');saveDisc();renderDisc();}
@@ -1019,7 +907,7 @@ function removeSaved(id){savedItems=savedItems.filter(function(x){return x.id!==
 function toggleStatus(id){var a=items.find(function(x){return x.id===id;});if(!a)return;a.status=a.status==='watched'?'watching':'watched';if(a.status==='watched')expandedId=null;saveData();renderAll();}
 function toggleFav(id){var a=items.find(function(x){return x.id===id;});if(!a)return;a.fav=!a.fav;saveData();renderAll();}
 function toggleExpand(id){expandedId=expandedId===id?null:id;renderAll();}
-function saveProgress(id){
+function saveProgress2(id){
   var a=items.find(function(x){return x.id===id;});if(!a)return;
   var ps=g('ps-'+id),pe=g('pe-'+id),pr=g('pr-'+id),pt=g('pt-'+id);
   a.progress={season:ps?ps.value:'',ep:pe?pe.value:'',time:pt?pt.value:''};
@@ -1030,16 +918,15 @@ function removeItem(id){items=items.filter(function(x){return x.id!==id;});if(ex
 window.addItem=addItem;window.addSavedItem=addSavedItem;window.addDiscItem=addDiscItem;
 window.watchNowFromDisc=watchNowFromDisc;window.saveFromDisc=saveFromDisc;window.removeDiscItem=removeDiscItem;
 window.startFromSaved=startFromSaved;window.removeSaved=removeSaved;window.toggleStatus=toggleStatus;
-window.toggleFav=toggleFav;window.toggleExpand=toggleExpand;window.saveProgress=saveProgress;window.removeItem=removeItem;
+window.toggleFav=toggleFav;window.toggleExpand=toggleExpand;window.saveProgress2=saveProgress2;window.removeItem=removeItem;
 
-// PLAYER
+// ===== PLAYER =====
 function setPlayIcon(p){var btn=g('play-pause-btn');if(btn)btn.textContent=p?'⏸':'▶';}
 function updateProgress(cur,dur){var pct=dur>0?(cur/dur)*100:0;var pf=g('progress-fill');if(pf)pf.style.width=pct+'%';var pt=g('progress-thumb');if(pt)pt.style.left=pct+'%';var pr=g('progress-range');if(pr)pr.value=Math.round(pct*10);var tc=g('time-cur');if(tc)tc.textContent=fmtTime(cur);var tt=g('time-tot');if(tt)tt.textContent=fmtTime(dur);}
 function showLoading(){var ov=g('loading-overlay');if(ov)ov.classList.add('show');}
 function hideLoading(){var ov=g('loading-overlay');if(ov)ov.classList.remove('show');}
 function showNoFile(){if(vid)vid.style.display='none';var nf=g('no-file-msg');if(nf)nf.classList.add('show');var epl=g('player-ep-label');if(epl)epl.textContent='Selecione um episódio';updateProgress(0,0);setPlayIcon(false);}
 function hideNoFile(){if(vid)vid.style.display='block';var nf=g('no-file-msg');if(nf)nf.classList.remove('show');}
-
 function openPlayer(itemId,epIdx){
   playerItemId=itemId;
   var a=items.find(function(x){return x.id===itemId;});if(!a)return;
@@ -1059,14 +946,13 @@ function closePlayer(){
   playerItemId=null;playerEpIdx=-1;
 }
 window.openPlayer=openPlayer;window.closePlayer=closePlayer;
-
 function renderEpList(){
   var a=items.find(function(x){return x.id===playerItemId;});if(!a)return;
   var eps=a.episodes||[];var c=g('ep-list');if(!c)return;
-  if(!eps.length){c.innerHTML='<div style="padding:20px 16px;font-size:12px;color:#555;text-align:center;">Nenhum episódio. Adicione acima!</div>';return;}
+  if(!eps.length){c.innerHTML='<div style="padding:20px 16px;font-size:12px;color:#555;text-align:center;">Nenhum episódio.</div>';return;}
   c.innerHTML=eps.map(function(ep,i){
     var hasSrc=ep.fileUrl||ep.linkUrl;
-    var status=ep.linkUrl?'🔗 Link salvo':ep.fileUrl?'✅ Arquivo carregado':'📂 Sem vídeo';
+    var status=ep.linkUrl?'🔗 Link salvo':ep.fileUrl?'✅ Arquivo':ep.watched?'✓ Assistido':'📂 Sem vídeo';
     return '<div class="ep-item'+(i===playerEpIdx?' cur':'')+(hasSrc?' has-file':'')+'" onclick="loadEpisode('+i+')">'+
       '<span class="ep-num">E'+(i+1)+'</span>'+
       '<div class="ep-info"><div class="ep-name">'+ep.name+'</div><div class="ep-sub">'+status+(ep.savedTime?' · '+fmtTime(ep.savedTime):'')+'</div></div>'+
@@ -1081,7 +967,6 @@ function pickFileForCurrentEp(){if(playerEpIdx<0){var a=items.find(function(x){r
 function pickFileForEp(idx){playerEpIdx=idx;triggerFilePicker(idx);}
 function triggerFilePicker(idx){var fi=g('file-input-hidden');if(!fi)return;fi.onchange=null;fi.value='';fi.onchange=function(e){var f=e.target.files[0];if(!f)return;var url=URL.createObjectURL(f);var a=items.find(function(x){return x.id===playerItemId;});if(!a||!a.episodes||!a.episodes[idx])return;if(a.episodes[idx].fileUrl)URL.revokeObjectURL(a.episodes[idx].fileUrl);a.episodes[idx].fileUrl=url;a.episodes[idx].linkUrl=null;a.episodes[idx].savedTime=0;saveData();loadEpisode(idx);renderEpList();fi.value='';};fi.click();}
 window.addEpisode=addEpisode;window.removeEp=removeEp;window.pickFileForCurrentEp=pickFileForCurrentEp;window.pickFileForEp=pickFileForEp;
-
 function openLinkModal(){linkModalEpIdx=playerEpIdx>=0?playerEpIdx:0;var inp=g('link-modal-input');var a=items.find(function(x){return x.id===playerItemId;});var ep=a&&a.episodes&&a.episodes[linkModalEpIdx];if(inp)inp.value=(ep&&ep.linkUrl)||'';var m=g('link-modal');if(m)m.classList.add('active');setTimeout(function(){if(inp)inp.focus();},100);}
 function openLinkModalForEp(idx){playerEpIdx=idx;openLinkModal();}
 function closeLinkModal(){var m=g('link-modal');if(m)m.classList.remove('active');}
@@ -1096,7 +981,6 @@ function submitLinkModal(){
   if(playerItemId){loadEpisode(idx);renderEpList();}
 }
 window.openLinkModal=openLinkModal;window.openLinkModalForEp=openLinkModalForEp;window.closeLinkModal=closeLinkModal;window.submitLinkModal=submitLinkModal;
-
 function loadEpisode(idx){
   var a=items.find(function(x){return x.id===playerItemId;});if(!a||!a.episodes||!a.episodes[idx])return;
   var ep=a.episodes[idx];playerEpIdx=idx;a.lastEp=idx;saveData();
@@ -1113,7 +997,6 @@ function loadEpisode(idx){
   renderEpList();
 }
 window.loadEpisode=loadEpisode;
-
 function togglePlay(){if(!vid||!vid.src)return;if(vid.paused){vid.play().then(function(){setPlayIcon(true);}).catch(function(){});}else{vid.pause();setPlayIcon(false);}}
 function seekByClick(e){if(!vid||!vid.duration)return;var track=g('progress-track');if(!track)return;var rect=track.getBoundingClientRect();var pct=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));vid.currentTime=pct*vid.duration;}
 function onProgressInput(val){if(!vid||!vid.duration)return;isSeeking=true;var pct=val/10;var pf=g('progress-fill');if(pf)pf.style.width=pct+'%';var pt=g('progress-thumb');if(pt)pt.style.left=pct+'%';}
@@ -1123,7 +1006,6 @@ function skipBack(){if(vid&&vid.src)vid.currentTime=Math.max(0,vid.currentTime-1
 function skipForward(){if(vid&&vid.src&&vid.duration)vid.currentTime=Math.min(vid.duration,vid.currentTime+10);}
 function toggleFullscreen(){if(vid&&vid.webkitEnterFullscreen){vid.webkitEnterFullscreen();return;}var ov=g('player-overlay');if(!document.fullscreenElement&&!document.webkitFullscreenElement){if(ov&&ov.requestFullscreen)ov.requestFullscreen();else if(ov&&ov.webkitRequestFullscreen)ov.webkitRequestFullscreen();}else{if(document.exitFullscreen)document.exitFullscreen();else if(document.webkitExitFullscreen)document.webkitExitFullscreen();}}
 window.togglePlay=togglePlay;window.seekByClick=seekByClick;window.onProgressInput=onProgressInput;window.onProgressChange=onProgressChange;window.onVolInput=onVolInput;window.skipBack=skipBack;window.skipForward=skipForward;window.toggleFullscreen=toggleFullscreen;
-
 vid.addEventListener('timeupdate',function(){
   if(isSeeking||!vid.duration)return;
   updateProgress(vid.currentTime,vid.duration);
@@ -1145,11 +1027,12 @@ vid.addEventListener('ended',function(){
     var a=items.find(function(x){return x.id===playerItemId;});
     if(a&&a.episodes&&a.episodes[playerEpIdx]){a.episodes[playerEpIdx].watched=true;saveData();}
   }
-  var a=items.find(function(x){return x.id===playerItemId;});
-  if(!a||!a.episodes)return;
-  if(playerEpIdx<a.episodes.length-1)setTimeout(function(){loadEpisode(playerEpIdx+1);},1500);
+  var a2=items.find(function(x){return x.id===playerItemId;});
+  if(!a2||!a2.episodes)return;
+  if(playerEpIdx<a2.episodes.length-1)setTimeout(function(){loadEpisode(playerEpIdx+1);},1500);
 });
 
+// ===== IA =====
 window.getSuggestion=async function(){
   var btn=g('suggest-btn');if(btn){btn.disabled=true;btn.textContent='Pensando...';}
   var rec=g('rec-results');if(rec)rec.innerHTML='<div class="loading-msg">🤖 Analisando sua lista...</div>';
@@ -1166,8 +1049,9 @@ window.getSuggestion=async function(){
 };
 window.watchNowByName=function(name,btn){if(!items.find(function(x){return x.name.toLowerCase()===name.toLowerCase();})){items.unshift(newItem(name,'d'));saveData();renderAll();}if(btn){btn.textContent='✓ Adicionado!';btn.classList.add('done');btn.disabled=true;}};
 
-var inputs={'add-name':addItem,'disc-name':addDiscItem,'saved-add-name':addSavedItem,'ep-name-input':addEpisode,'detail-ep-input':addEpFromDetail};
-Object.keys(inputs).forEach(function(id){var el=g(id);if(el)el.addEventListener('keydown',function(e){if(e.key==='Enter')inputs[id]();});});
+// ===== INIT =====
+var inputMap={'add-name':addItem,'disc-name':addDiscItem,'saved-add-name':addSavedItem,'ep-name-input':addEpisode,'detail-ep-input':addEpFromDetail};
+Object.keys(inputMap).forEach(function(id){var el=g(id);if(el)el.addEventListener('keydown',function(e){if(e.key==='Enter')inputMap[id]();});});
 var si=g('search-input');if(si)si.addEventListener('input',renderBusca);
 var ds=g('disc-search');if(ds)ds.addEventListener('input',renderDisc);
 var li=g('link-modal-input');if(li)li.addEventListener('keydown',function(e){if(e.key==='Enter')submitLinkModal();});
