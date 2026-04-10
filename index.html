@@ -5,46 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>Zentrix</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" crossorigin="anonymous"/>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script>
-(function() {
-  var firebaseConfig = {
-    apiKey: "AIzaSyDKPdzZkLdVbnyXX6Mcnw1k03Fl4ujdVy4",
-    authDomain: "zentrix-6f3fc.firebaseapp.com",
-    projectId: "zentrix-6f3fc",
-    storageBucket: "zentrix-6f3fc.firebasestorage.app",
-    messagingSenderId: "554078287215",
-    appId: "1:554078287185:web:612bac92e0243e16cb4f70"
-  };
 
-  try {
-    firebase.initializeApp(firebaseConfig);
-    var db = firebase.firestore();
-
-    function getUserId() {
-      var uid = null;
-      try { uid = localStorage.getItem('zentrix_uid'); } catch(e) {}
-      if (!uid) {
-        uid = 'zentrix_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
-        try { localStorage.setItem('zentrix_uid', uid); } catch(e) {}
-      }
-      return uid;
-    }
-
-    var userId = getUserId();
-    window._zentrixUserId = userId;
-    window._zentrixDb = db;
-    window._zentrixFirebaseReady = true;
-    console.log('Zentrix Firebase ready. userId:', userId);
-    window.dispatchEvent(new Event('zentrix-firebase-ready'));
-  } catch(e) {
-    console.error('Firebase init error:', e);
-    window._zentrixFirebaseReady = false;
-    window.dispatchEvent(new Event('zentrix-firebase-ready'));
-  }
-})();
-</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{
@@ -60,6 +21,39 @@
   --font:'Inter',sans-serif;
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;overflow:hidden;}
+
+/* SPLASH SCREEN */
+#splash{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  background:#08080f;
+  animation:splashFadeOut .5s ease forwards;
+  animation-delay:1.8s;
+  pointer-events:none;
+}
+#splash::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 50%,rgba(109,40,217,.35) 0%,transparent 60%),
+             radial-gradient(ellipse at 75% 50%,rgba(14,165,233,.25) 0%,transparent 55%);
+}
+.splash-inner{
+  display:flex;align-items:center;gap:16px;
+  position:relative;z-index:1;
+}
+.splash-logo{
+  width:52px;height:52px;border-radius:50%;
+  object-fit:cover;flex-shrink:0;
+}
+.splash-name{
+  font-size:38px;font-weight:900;letter-spacing:1px;
+  background:linear-gradient(90deg,#fff 0%,#c4b5fd 50%,#7dd3fc 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  font-family:'Inter',sans-serif;
+}
+@keyframes splashFadeOut{
+  0%{opacity:1;}
+  100%{opacity:0;visibility:hidden;}
+}
 .app{display:flex;flex-direction:column;height:100vh;max-width:480px;margin:0 auto;background:var(--bg);position:relative;}
 .screen{display:none;flex:1;flex-direction:column;overflow-y:auto;overflow-x:hidden;padding-bottom:100px;}
 .screen.active{display:flex;}
@@ -323,6 +317,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 </style>
 </head>
 <body>
+<!-- SPLASH SCREEN -->
+<div id="splash">
+  <div class="splash-inner">
+    <img class="splash-logo" src="https://archive.org/download/copy_AE0F4DC1-B83C-46FC-BB9F-57B437BB5134/copy_AE0F4DC1-B83C-46FC-BB9F-57B437BB5134.png" alt="Zentrix"/>
+    <div class="splash-name">Zentrix</div>
+  </div>
+</div>
 <div class="app">
   <div class="screen active" id="screen-home">
     <div class="top-bar">
@@ -571,7 +572,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-var KEY='zentrix_v1', DISC_KEY='lopz_disc_v1', SAVED_KEY='lopz_saved_v1';
+var KEY='zentrix_v1', DISC_KEY='zentrix_disc_v1', SAVED_KEY='zentrix_saved_v1';
 var items=[], discItems=[], savedItems=[];
 var filter='all', searchFilter='all';
 var curAud='d', curSavedCat='anime-serie';
@@ -582,133 +583,134 @@ var vid=document.getElementById('main-video');
 
 function g(id){return document.getElementById(id);}
 
-// ===== FIREBASE STORAGE SYSTEM =====
-var _saveTimer = null;
-var _unsubscribe = null;
-
-function _getRef() {
-  if (!window._zentrixDb || !window._zentrixUserId) return null;
-  return window._zentrixDb.collection('users').doc(window._zentrixUserId);
-}
-
-function _pushToFirebase() {
-  var ref = _getRef();
-  if (!ref) return;
-  clearTimeout(_saveTimer);
-  _saveTimer = setTimeout(function() {
-    var payload = {
-      items: JSON.parse(JSON.stringify(items)),
-      discItems: JSON.parse(JSON.stringify(discItems)),
-      savedItems: JSON.parse(JSON.stringify(savedItems)),
-      updatedAt: Date.now()
-    };
-    ref.set(payload).then(function() {
-      console.log('Zentrix: saved to Firebase', items.length, 'animes');
-    }).catch(function(e) {
-      console.error('Zentrix: Firebase save error:', e);
-    });
-  }, 800);
-}
-
-function loadData() {
-  var empty = g('home-empty');
-  if (empty) {
-    empty.innerHTML = '<div class="empty-icon">⏳</div><div class="empty-title">Carregando...</div>';
-    empty.style.display = 'flex';
-  }
-
-  function doLoad() {
-    if (!window._zentrixFirebaseReady) {
-      setTimeout(doLoad, 300);
-      return;
-    }
-    if (!window._zentrixDb) {
-      // Firebase failed, use localStorage
-      _loadFromLocalStorage();
-      renderAll();
-      return;
-    }
-    var ref = _getRef();
-    ref.get().then(function(snap) {
-      if (snap.exists) {
-        var d = snap.data();
-        items = Array.isArray(d.items) ? d.items : [];
-        discItems = Array.isArray(d.discItems) ? d.discItems : [];
-        savedItems = Array.isArray(d.savedItems) ? d.savedItems : [];
-        console.log('Zentrix: loaded from Firebase:', items.length, 'animes');
-      } else {
-        // New user - migrate from localStorage if any
-        _loadFromLocalStorage();
-        if (items.length > 0 || discItems.length > 0) {
-          console.log('Zentrix: migrating localStorage to Firebase...');
-          _pushToFirebase();
-        }
+// ===== ANIMES PADRÃO (editados aqui no código) =====
+var DEFAULT_ANIMES = [
+  {
+    id: 'sentenced-hero',
+    name: 'Sentenced to Be a Hero',
+    status: 'watching',
+    cat: 'anime-serie',
+    audio: 'ld',
+    fav: false,
+    rating: null,
+    progress: {},
+    cover: '',
+    lastEp: -1,
+    episodes: [
+      {
+        id: 'ep1',
+        name: 'Sentenciado a ser Herói',
+        linkUrl: 'https://ia601603.us.archive.org/25/items/copy_2512069D-E085-4039-B16D-A3EBC768F676/copy_2512069D-E085-4039-B16D-A3EBC768F676.mp4',
+        fileUrl: null, savedTime: 0, duration: 0, watched: false
+      },
+      {
+        id: 'ep2',
+        name: 'Sentença: Liderando a supressão no túnel Zewan Gan - Parte 1',
+        linkUrl: 'https://ia800809.us.archive.org/1/items/copy_D17D323E-89BA-446D-949A-6505778C98DC/copy_D17D323E-89BA-446D-949A-6505778C98DC.mp4',
+        fileUrl: null, savedTime: 0, duration: 0, watched: false
+      },
+      {
+        id: 'ep3',
+        name: 'Sentença: Liderando a supressão no túnel Zewan Gan - Parte 2',
+        linkUrl: 'https://ia600703.us.archive.org/27/items/copy_95fa6027-6446-481f-9e8a-4cb2ab2687bd_202604/copy_95FA6027-6446-481F-9E8A-4CB2AB2687BD.mp4',
+        fileUrl: null, savedTime: 0, duration: 0, watched: false
       }
-      renderAll();
-      _startSync();
-    }).catch(function(e) {
-      console.error('Zentrix: Firebase load error:', e);
-      _loadFromLocalStorage();
-      renderAll();
-    });
+    ]
   }
+  // NOVOS ANIMES AQUI EMBAIXO
+];
 
-  if (window._zentrixFirebaseReady !== undefined) {
-    doLoad();
-  } else {
-    window.addEventListener('zentrix-firebase-ready', doLoad, {once: true});
-    setTimeout(function() {
-      if (!window._zentrixFirebaseReady) {
-        _loadFromLocalStorage();
-        renderAll();
-      }
-    }, 6000);
-  }
-}
-
-function _loadFromLocalStorage() {
-  try { var v = localStorage.getItem(KEY); if (v) items = JSON.parse(v); } catch(e) {}
-  try { var v = localStorage.getItem(DISC_KEY); if (v) discItems = JSON.parse(v); } catch(e) {}
-  try { var v = localStorage.getItem(SAVED_KEY); if (v) savedItems = JSON.parse(v); } catch(e) {}
-}
-
-function _startSync() {
-  var ref = _getRef();
-  if (!ref) return;
-  if (_unsubscribe) _unsubscribe();
-  _unsubscribe = ref.onSnapshot(function(snap) {
-    if (!snap.exists) return;
-    var d = snap.data();
-    var remoteTs = d.updatedAt || 0;
-    var localTs = window._zentrixLastSave || 0;
-    // Only update UI if change came from another device (not our own save)
-    if (remoteTs > localTs + 1500) {
-      items = Array.isArray(d.items) ? d.items : [];
-      discItems = Array.isArray(d.discItems) ? d.discItems : [];
-      savedItems = Array.isArray(d.savedItems) ? d.savedItems : [];
-      console.log('Zentrix: synced from another device!');
-      renderAll();
+// Merge default animes with user progress from localStorage
+function mergeWithProgress(defaults, savedProgress) {
+  return defaults.map(function(anime) {
+    var prog = savedProgress[anime.id] || {};
+    var merged = JSON.parse(JSON.stringify(anime)); // deep copy
+    // Apply saved user progress to each episode
+    merged.lastEp = prog.lastEp !== undefined ? prog.lastEp : anime.lastEp;
+    merged.fav = prog.fav !== undefined ? prog.fav : anime.fav;
+    merged.rating = prog.rating !== undefined ? prog.rating : anime.rating;
+    merged.status = prog.status || anime.status;
+    merged.progress = prog.progress || anime.progress;
+    if (prog.episodes) {
+      merged.episodes = anime.episodes.map(function(ep) {
+        var epProg = prog.episodes[ep.id] || {};
+        return {
+          id: ep.id,
+          name: ep.name,
+          linkUrl: ep.linkUrl,
+          fileUrl: ep.fileUrl,
+          savedTime: epProg.savedTime || 0,
+          duration: epProg.duration || 0,
+          watched: epProg.watched || false
+        };
+      });
     }
-  }, function(e) {
-    console.error('Zentrix: sync error:', e);
+    return merged;
   });
 }
 
+// Save only user progress (not the anime data itself)
+function saveProgress_JSON() {
+  var progress = {};
+  items.forEach(function(anime) {
+    var def = DEFAULT_ANIMES.find(function(d) { return d.id === anime.id; });
+    if (!def) return; // custom anime added by user, skip
+    var epProgress = {};
+    anime.episodes.forEach(function(ep) {
+      if (ep.savedTime > 0 || ep.watched || ep.duration > 0) {
+        epProgress[ep.id] = {
+          savedTime: ep.savedTime || 0,
+          duration: ep.duration || 0,
+          watched: ep.watched || false
+        };
+      }
+    });
+    progress[anime.id] = {
+      lastEp: anime.lastEp,
+      fav: anime.fav,
+      rating: anime.rating,
+      status: anime.status,
+      progress: anime.progress,
+      episodes: epProgress
+    };
+  });
+  try { localStorage.setItem('zentrix_progress', JSON.stringify(progress)); } catch(e) {}
+}
+
+// ===== STORAGE LOCAL =====
+function loadData() {
+  // Load user progress
+  var savedProgress = {};
+  try { var v = localStorage.getItem('zentrix_progress'); if (v) savedProgress = JSON.parse(v); } catch(e) {}
+
+  // Merge default animes with progress
+  var merged = mergeWithProgress(DEFAULT_ANIMES, savedProgress);
+
+  // Load any custom animes user added manually
+  var customItems = [];
+  try { var v = localStorage.getItem(KEY); if (v) customItems = JSON.parse(v); } catch(e) {}
+  // Filter out any that conflict with defaults
+  customItems = customItems.filter(function(ci) {
+    return !DEFAULT_ANIMES.find(function(d) { return d.id === ci.id; });
+  });
+
+  items = merged.concat(customItems);
+
+  try { var v = localStorage.getItem(DISC_KEY); if (v) discItems = JSON.parse(v); } catch(e) { discItems = []; }
+  try { var v = localStorage.getItem(SAVED_KEY); if (v) savedItems = JSON.parse(v); } catch(e) { savedItems = []; }
+}
+
 function saveData() {
-  window._zentrixLastSave = Date.now();
-  try { localStorage.setItem(KEY, JSON.stringify(items)); } catch(e) {}
-  _pushToFirebase();
+  // Save progress separately
+  saveProgress_JSON();
+  // Save custom (non-default) animes
+  var custom = items.filter(function(a) {
+    return !DEFAULT_ANIMES.find(function(d) { return d.id === a.id; });
+  });
+  try { localStorage.setItem(KEY, JSON.stringify(custom)); } catch(e) {}
 }
-function saveDisc() {
-  window._zentrixLastSave = Date.now();
-  try { localStorage.setItem(DISC_KEY, JSON.stringify(discItems)); } catch(e) {}
-  _pushToFirebase();
-}
-function saveSaved() {
-  window._zentrixLastSave = Date.now();
-  try { localStorage.setItem(SAVED_KEY, JSON.stringify(savedItems)); } catch(e) {}
-  _pushToFirebase();
-}
+function saveDisc() { try { localStorage.setItem(DISC_KEY, JSON.stringify(discItems)); } catch(e) {} }
+function saveSaved() { try { localStorage.setItem(SAVED_KEY, JSON.stringify(savedItems)); } catch(e) {} }
 
 function catLabel(){return 'Anime';}
 function catEmoji(){return '⚔️';}
@@ -1171,6 +1173,7 @@ var ds=g('disc-search');if(ds)ds.addEventListener('input',renderDisc);
 var li=g('link-modal-input');if(li)li.addEventListener('keydown',function(e){if(e.key==='Enter')submitLinkModal();});
 
 loadData();
+renderAll();
 console.log('Zentrix OK!');
 
 });
